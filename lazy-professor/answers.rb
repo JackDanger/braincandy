@@ -38,7 +38,7 @@ end
 
 Lazies = Questions.map { |answers| Lazy.new(answers) }
 
-puts 'Sure, the correct answers are probably:'
+#puts 'Sure, the correct answers are probably:'
 puts Lazies.map(&:best).join
-puts "And I'm about this confident for each:"
-Lazies.each { |l| puts "#{l.best}: #{'%.2f' % l.deviation}" }
+#puts "And I'm about this confident for each:"
+#Lazies.each { |l| puts "#{l.best}: #{'%.2f' % l.deviation}" }
