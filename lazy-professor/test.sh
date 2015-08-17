@@ -18,6 +18,9 @@ run(){
     'go')
       go run answers.go
       ;;
+    'zsh')
+      ./answers.zsh
+      ;;
   esac
 }
 
@@ -26,7 +29,10 @@ python_out=$(run python)
 java_out=$(run java)
 go_out=$(run go)
 clojure_out=$(run clojure)
+zsh_out=$(run zsh)
+
 diff <(echo $ruby_out) <(echo $python_out)  && echo "Python: OK"
 diff <(echo $ruby_out) <(echo $java_out)    && echo "Java: OK"
 diff <(echo $ruby_out) <(echo $go_out)      && echo "Go: OK"
 diff <(echo $ruby_out) <(echo $clojure_out) && echo "Clojure: OK"
+diff <(echo $ruby_out) <(echo $zsh_out)     && echo "ZSH: OK"
