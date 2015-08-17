@@ -7,7 +7,7 @@ counts[C]=""
 counts[D]=""
 
 sample=$(head -n 1 test.txt)
-num_questions=$(wc -c <<<$sample)
+num_questions=$(echo -n $sample | wc -c)
 
 # initialize the count lists with double-digit numbers
 for question in $(seq $num_questions); do
@@ -29,20 +29,9 @@ for answer in `cat test.txt`; do
 
     # turn single-digit numbers (which, which the heredoc, look like two-digit)
     # into double-digit ones.
-    if [[ 2 -eq $(wc -c <<<$new_count) ]]; then
+    if [[ 10 -gt $new_count ]]; then
       new_count="0$new_count"
     fi
-
-    #if [[ "A" == "$choice" ]]; then
-    #  echo answer $answer
-    #  echo question $question
-    #  echo choice $choice
-    #  echo digit_offset_tens $digit_offset_tens
-    #  echo digit_offset_ones $digit_offset_ones
-    #  echo current $current
-    #  echo new_count $new_count
-    #  echo count $count
-    #fi
 
     count[$digit_offset_tens]=${new_count[1]}
     count[$digit_offset_ones]=${new_count[2]}
@@ -61,7 +50,8 @@ for question in `seq $num_questions`; do
       best_choice=$choice
       best_count=$this_count
     fi
-    echo -n $best_choice
   done
+  echo -n $best_choice
 done
+echo ''
 
