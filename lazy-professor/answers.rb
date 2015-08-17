@@ -1,8 +1,8 @@
 # encoding: utf-8
 TestsFile = File.expand_path('../test.txt', __FILE__)
-# Inefficient: This loads everything into memory. Not worth peeking into the
-# file and scanning for the newline character for this exercise.
+
 Tests = File.readlines(TestsFile).map(&:chomp)
+
 LineLength = Tests.first.size
 
 # Encapsulates the logic necessary to find "correct" answers within the
@@ -10,7 +10,7 @@ LineLength = Tests.first.size
 class Lazy < Struct.new(:answers)
 
   def best
-    answers.max_by(&:last).first
+    answers.group_by(&:to_s).values.max_by(&:size).first
   end
 
   # Average absolute deviation
@@ -29,14 +29,7 @@ class Lazy < Struct.new(:answers)
   end
 end
 
-Questions = LineLength.times.map { Hash.new { |h, k| h[k] = 0 } }
-Tests.each do |test|
-  test.chars.each_with_index do |answer, question|
-    Questions[question][answer] += 1
-  end
-end
-
-Lazies = Questions.map { |answers| Lazy.new(answers) }
+Lazies = Tests.map(&:chars).transpose.map { |answers| Lazy.new(answers) }
 
 #puts 'Sure, the correct answers are probably:'
 puts Lazies.map(&:best).join
